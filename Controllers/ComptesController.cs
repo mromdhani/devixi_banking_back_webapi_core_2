@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MonProjetBanking_Back.DataAccess;
@@ -32,11 +33,13 @@ namespace MonProjetBanking_Back.Controllers
             }
         }
         [HttpGet]
+       [Authorize(Policy = "UserOnly")]
         public async Task<ActionResult<IEnumerable<Compte>>> GetComptes()
         {
             return await _context.Comptes.ToListAsync();
         }
         [HttpGet("{id}")]
+         [Authorize(Policy = "UserOnly")]
         public async Task<ActionResult<Compte>> GetCompte(string id)
         {
             var compte = await _context.Comptes.FindAsync(id);
@@ -50,6 +53,7 @@ namespace MonProjetBanking_Back.Controllers
         }
         // POST: api/Todo
         [HttpPost]
+         [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<Compte>> PostCompte(Compte compte)
         {
             _context.Comptes.Add(compte);
@@ -60,6 +64,7 @@ namespace MonProjetBanking_Back.Controllers
         }
         // PUT: api/Todo/5
         [HttpPut("{id}")]
+           [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PutCompte(string id, Compte compte)
         {
             if (id != compte.Numero)
@@ -73,6 +78,7 @@ namespace MonProjetBanking_Back.Controllers
             return NoContent();
         }
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<Compte>> DeleteCompte(string id)
         {
             var compte = await _context.Comptes.FindAsync(id);
