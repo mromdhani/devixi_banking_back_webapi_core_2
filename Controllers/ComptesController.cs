@@ -33,13 +33,13 @@ namespace MonProjetBanking_Back.Controllers
             }
         }
         [HttpGet]
-       [Authorize(Policy = "UserOnly")]
+       [Authorize(Policy = "UserAndAdmin")]
         public async Task<ActionResult<IEnumerable<Compte>>> GetComptes()
         {
             return await _context.Comptes.ToListAsync();
         }
         [HttpGet("{id}")]
-         [Authorize(Policy = "UserOnly")]
+         [Authorize(Policy = "UserAndAdmin")]
         public async Task<ActionResult<Compte>> GetCompte(string id)
         {
             var compte = await _context.Comptes.FindAsync(id);

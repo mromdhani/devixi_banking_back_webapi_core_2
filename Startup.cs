@@ -54,8 +54,8 @@ namespace MonProjetBanking_Back
             {
                 options.AddPolicy("AdminOnly", policy =>
                                 policy.RequireClaim("Pouvoir", "admin"));
-                options.AddPolicy("UserOnly", policy =>
-                                policy.RequireClaim("Pouvoir", "user"));
+                options.AddPolicy("UserAndAdmin", policy =>
+                                policy.RequireClaim("Pouvoir", "user","admin"));
             });
 
         }
@@ -73,8 +73,8 @@ namespace MonProjetBanking_Back
                 app.UseHsts();
             }
 
-        app.UseCors(builder =>
-           builder.WithOrigins("http://localhost:4201"));
+           app.UseCors(builder =>
+             builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
             //app.UseHttpsRedirection();
             app.UseAuthentication();  
